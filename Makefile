@@ -13,8 +13,8 @@ ISO_FILE	:= adamantium.iso
 all: bootloader kernel linker iso run
 	@echo Make has completed.
 
-bootloader: boot/grub-boot.asm
-	nasm -felf32 boot/grub-boot.asm -o boot.o
+bootloader: boot/grub-boot.S
+	as --32 boot/grub-boot.S -o boot.o
 
 kernel: init/kernel.c
 	gcc -m32 -c init/kernel.c -o kernel.o -Iinclude

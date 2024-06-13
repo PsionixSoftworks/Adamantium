@@ -29,4 +29,10 @@
 #define TERMINAL_WIDTH						80
 #define TERMINAL_HEIGHT						25
 #endif	// !TEXT_MODE_COLOR_40x25
+
+// Each of these have there uses:
+#define VGA_GFX_MODE						0x000A0000		// Graphic Mode
+#define VGA_TEXT_MONO						0x000B0000		// (Deprecated)
+#define VGA_TEXT_COLOR						0x000B8000		// Video Text Mode
+
 #endif	// !_VGA_H

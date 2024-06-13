@@ -5,7 +5,7 @@
 #define CHECK_FLAG(flags, bit)				((flags) & (1 << (bit)))
 
 // Entry point of the operating system kernel:
-int main(void)
+int main(unsigned long magic, unsigned long addr)
 {
 	// Text mode video address buffer:
 	unsigned short* vga_buffer = (unsigned short*)0x000B8000;
