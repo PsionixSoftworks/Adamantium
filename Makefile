@@ -13,11 +13,11 @@ ISO_FILE	:= adamantium.iso
 all: bootloader kernel linker iso run
 	@echo Make has completed.
 
-bootloader: grub-boot.asm
-	nasm -felf32 grub-boot.asm -o boot.o
+bootloader: boot/grub-boot.asm
+	nasm -felf32 boot/grub-boot.asm -o boot.o
 
-kernel: kernel.c
-	gcc -m32 -c kernel.c -o kernel.o
+kernel: init/kernel.c
+	gcc -m32 -c init/kernel.c -o kernel.o -Iinclude
 
 linker: link.ld boot.o kernel.o
 	ld -m elf_i386 -T link.ld -o kernel boot.o kernel.o
