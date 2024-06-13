@@ -20,4 +20,13 @@
 #define SYSTEM_COLOR_WHITE					0x0F
 #endif
 
-#endif
+// This is dependant on the bootloader settings. With GRUB, it sets the default to 80x25 because that is the higher resolution. In the custom bootloader,
+// we will have the power to set this at startup. With that in mind, we need to check for the resolution in color text mode:
+#ifdef TEXT_MODE_COLOR_40x25
+#define TERMINAL_WIDTH						40
+#define TERMINAL_HEIGHT						25
+#else
+#define TERMINAL_WIDTH						80
+#define TERMINAL_HEIGHT						25
+#endif	// !TEXT_MODE_COLOR_40x25
+#endif	// !_VGA_H

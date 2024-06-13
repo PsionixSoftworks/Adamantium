@@ -1,6 +1,9 @@
 #include <multiboot.h>
 #include <vga.h>
 
+// Check bit flags:
+#define CHECK_FLAG(flags, bit)				((flags) & (1 << (bit)))
+
 // Entry point of the operating system kernel:
 int main(void)
 {
