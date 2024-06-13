@@ -1,6 +1,17 @@
+#define ASM_FILE			1
+#include <multiboot.h>
+
+#ifdef __ELF__
+#define AOUT_KLUDGE			0
+#else
+#define AOUT_KLUDGE			MULTIBOOT_AOUT_KLUDGE
+#endif	// !__ELF__
+
+#define STACK_SZ			0x4000
+
 .set MULTIBOOT_ALIGN,		1 << 0
-.set MEMINFO,				1 << 1
-.set MULTIBOOT_FLAGS,		MULTIBOOT_ALIGN | MEMINFO
+.set MULTIBOOT_MEMINFO,		1 << 1
+.set MULTIBOOT_FLAGS,		MULTIBOOT_ALIGN | MULTIBOOT_MEMINFO
 .set MULTIBOOT_MAGIC,		0x1BADB002
 .set CHECKSUM,				-(MULTIBOOT_MAGIC + MULTIBOOT_FLAGS)
 
@@ -20,7 +31,14 @@ stack_begin:
 .globl _start
 .type _start, @function
 _start:
-	mov $stack_begin, %esp
+	movl $stack_begin, %esp
+
+	pushl $0
+	popf
+
+	pushl %ebx
+	pushl %eax
+
 	call main
 	cli
 1:	hlt

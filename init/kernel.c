@@ -7,6 +7,9 @@
 // Entry point of the operating system kernel:
 int main(unsigned long magic, unsigned long addr)
 {
+	// Setup multiboot:
+	multiboot_info_t* mbi;
+
 	// Text mode video address buffer:
 	unsigned short* vga_buffer = (unsigned short*)0x000B8000;
 
