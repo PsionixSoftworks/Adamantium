@@ -1,12 +1,13 @@
-CP := cp
-RM := rm -rf
-MKDIR := mkdir -pv
+CP 			:= cp
+RM 			:= rm -rf
+MKDIR 		:= mkdir -pv
 
-BIN = kernel
-CFG = grub.cfg
-ISO_PATH := iso
-BOOT_PATH := $(ISO_PATH)/boot
-GRUB_PATH := $(BOOT_PATH)/grub
+BIN 		= kernel
+CFG 		= grub.cfg
+ISO_PATH 	:= iso
+BOOT_PATH 	:= $(ISO_PATH)/boot
+GRUB_PATH 	:= $(BOOT_PATH)/grub
+ISO_FILE	:= adamantium.iso
 
 .PHONY: all
 all: bootloader kernel linker iso
@@ -26,8 +27,10 @@ iso: kernel
 	$(CP) $(BIN) $(BOOT_PATH)
 	$(CP) $(CFG) $(GRUB_PATH)
 	grub-file --is-x86-multiboot $(BOOT_PATH)/$(BIN)
-	grub-mkrescue -o my-kernel.iso $(ISO_PATH)
+	grub-mkrescue -o $(ISO_FILE) $(ISO_PATH)
 
 .PHONY: clean
 clean:
 	$(RM) *.o $(BIN) *iso
+run:
+	qemu-system-i386 -machine ubuntu -drive format=raw,file=$(ISO_FILE)
