@@ -10,7 +10,7 @@ GRUB_PATH 	:= $(BOOT_PATH)/grub
 ISO_FILE	:= adamantium.iso
 
 .PHONY: all
-all: bootloader kernel linker iso
+all: bootloader kernel linker iso run
 	@echo Make has completed.
 
 bootloader: grub-boot.asm
