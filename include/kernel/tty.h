@@ -51,6 +51,4 @@ static inline void tty_clear_screen(struct tty_handler* tty)
 	}
 }
 
-
-
 #endif

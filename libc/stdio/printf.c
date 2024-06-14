@@ -6,7 +6,7 @@
 #include <errno.h>
 
 /* Print internal: Prints the specified formatted string. */
-static bool print_int(const unsigned char* data, size_t len)
+static bool print_int(const char* data, size_t len)
 {
 	for (size_t i = 0; i < len; i++)
 	{

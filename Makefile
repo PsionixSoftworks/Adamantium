@@ -31,7 +31,7 @@ kernel: init/kernel.c
 	gcc -m32 -c libc/stdio/puts.c -o puts.o $(CFLAGS)
 
 linker: link.ld boot.o kernel.o
-	ld -m elf_i386 -T link.ld -o kernel boot.o kernel.o abort.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
+	ld -m elf_i386 -T link.ld -o $(BIN) boot.o kernel.o abort.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
 
 iso: kernel
 	$(MKDIR) $(GRUB_PATH)

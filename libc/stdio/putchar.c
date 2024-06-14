@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <vga.h>
 #include <kernel/tty.h>
+#include <kernel/cursor.h>
 
 unsigned char background_color;
 unsigned char foreground_color;
@@ -19,7 +20,8 @@ int putchar(int chr)
 	}
 	else
 	{
-		video_addr[index++] = c | vga_set_terminal_colors(tty.bg_color, tty.fg_color) << 8;
+		tty.vga_addr[index++] = c | vga_set_terminal_colors(tty.bg_color, tty.fg_color) << 8;
 	}
+	currsor_set_pos(tty.cursor_x, tty.cursor_y);
 	return chr;
 }

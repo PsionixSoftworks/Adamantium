@@ -1,6 +1,8 @@
 #include <multiboot.h>
 #include <vga.h>
 #include <kernel/tty.h>
+#include <kernel/ioportctrl.h>
+#include <kernel/cursor.h>
 #include <stdio.h>
 
 // Check bit flags:
@@ -15,6 +17,8 @@ int main(unsigned long magic, unsigned long addr)
 {
 	// Setup multiboot:
 	multiboot_info_t* mbi;
+	
+	cursor_enable(0x0, 0xF);
 
 	tty_init(&tty);
 	tty_set_background_color(&tty, SYSTEM_COLOR_BLACK);
