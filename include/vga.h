@@ -35,4 +35,6 @@
 #define VGA_TEXT_MONO						0x000B0000		// (Deprecated)
 #define VGA_TEXT_COLOR						0x000B8000		// Video Text Mode
 
+static volatile unsigned short* video_addr = (volatile unsigned short*)VGA_TEXT_COLOR;
+
 #endif	// !_VGA_H
