@@ -2,7 +2,7 @@ CP 			:= cp
 RM 			:= rm -rf
 MKDIR 		:= mkdir -pv
 
-BIN 		= kernel
+BIN 		= KERNEL
 CFG 		= grub.cfg
 ISO_PATH 	:= iso
 BOOT_PATH 	:= $(ISO_PATH)/boot

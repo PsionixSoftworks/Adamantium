@@ -36,5 +36,9 @@
 #define VGA_TEXT_COLOR						0x000B8000		// Video Text Mode
 
 static volatile unsigned short* video_addr = (volatile unsigned short*)VGA_TEXT_COLOR;
+static inline unsigned char vga_set_terminal_colors(unsigned char bg, unsigned char fg)
+{
+	return fg | bg << 4;
+}
 
 #endif	// !_VGA_H
