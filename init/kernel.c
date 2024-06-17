@@ -3,6 +3,7 @@
 #include <kernel/tty.h>
 #include <kernel/ioportctrl.h>
 #include <kernel/cursor.h>
+#include <kernel/i386/descriptors.h>
 #include <stdio.h>
 
 // Check bit flags:
@@ -40,7 +41,10 @@ int main(unsigned long magic, unsigned long addr)
 	mbi = (multiboot_info_t*)addr;
 
 	// Print memory usage:
-	printf("Memory Used: %uKB\n\n", mbi->mem_lower + mbi->mem_upper);
+	printf("Memory Used: %uKB\n", mbi->mem_lower + mbi->mem_upper);
+
+	// Install the descriptor tables:
+	descriptor_tables_install();
 
 	// Return as usual:
 	return 0;

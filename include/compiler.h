@@ -4,7 +4,7 @@
 #define PACKED								__attribute__((packed))
 #define NORETURN							__attribute__((__noreturn__))
 
-#define packed                              PACKED
-#define noreturn                            NORETURN
+#define _packed                              PACKED
+#define _noreturn                            NORETURN
 
 #endif

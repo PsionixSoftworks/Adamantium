@@ -15,8 +15,9 @@ CFLAGS		= -ffreestanding -fno-exceptions -fno-stack-protector -O2 -g -Wall -Wext
 all: bootloader kernel linker iso run
 	@echo Make has completed.
 
-bootloader: boot/grub-boot.S
+bootloader: boot/grub-boot.S boot/gdt.asm
 	as --32 boot/grub-boot.S -o boot.o
+	nasm -felf32 boot/gdt.asm -o gdt.o
 
 kernel: init/kernel.c
 	gcc -m32 -c init/kernel.c -o kernel.o $(CFLAGS)
@@ -31,8 +32,8 @@ kernel: init/kernel.c
 	gcc -m32 -c libc/stdio/putchar.c -o putchar.o $(CFLAGS)
 	gcc -m32 -c libc/stdio/puts.c -o puts.o $(CFLAGS)
 
-linker: link.ld boot.o kernel.o abort.o itoa.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
-	ld -m elf_i386 -T link.ld -o $(BIN) boot.o kernel.o abort.o itoa.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
+linker: link.ld boot.o gdt.o kernel.o abort.o itoa.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
+	ld -m elf_i386 -T link.ld -o $(BIN) boot.o gdt.o kernel.o abort.o itoa.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
 
 iso: kernel
 	$(MKDIR) $(GRUB_PATH)
