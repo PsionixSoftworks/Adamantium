@@ -21,6 +21,7 @@ bootloader: boot/grub-boot.S
 kernel: init/kernel.c
 	gcc -m32 -c init/kernel.c -o kernel.o $(CFLAGS)
 	gcc -m32 -c libc/stdlib/abort.c -o abort.o $(CFLAGS)
+	gcc -m32 -c libc/stdlib/itoa.c -o itoa.o $(CFLAGS)
 	gcc -m32 -c libc/string/memmove.c -o memmove.o $(CFLAGS)
 	gcc -m32 -c libc/string/strlen.c -o strlen.o $(CFLAGS)
 	gcc -m32 -c libc/string/memcmp.c -o memcmp.o $(CFLAGS)
@@ -30,8 +31,8 @@ kernel: init/kernel.c
 	gcc -m32 -c libc/stdio/putchar.c -o putchar.o $(CFLAGS)
 	gcc -m32 -c libc/stdio/puts.c -o puts.o $(CFLAGS)
 
-linker: link.ld boot.o kernel.o
-	ld -m elf_i386 -T link.ld -o $(BIN) boot.o kernel.o abort.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
+linker: link.ld boot.o kernel.o abort.o itoa.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
+	ld -m elf_i386 -T link.ld -o $(BIN) boot.o kernel.o abort.o itoa.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
 
 iso: kernel
 	$(MKDIR) $(GRUB_PATH)

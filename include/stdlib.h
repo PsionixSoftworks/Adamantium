@@ -12,7 +12,8 @@
 #endif
 
 EXTERN_C_BEGIN
-NORETURN void abort(void);
+extern NORETURN void abort(void);
+extern char* itoa(int, char*, int);
 EXTERN_C_END
 
 #endif

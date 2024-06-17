@@ -22,20 +22,12 @@ int main(unsigned long magic, unsigned long addr)
 
 	tty_init(&tty);
 	tty_set_background_color(&tty, SYSTEM_COLOR_BLACK);
-	tty_set_foreground_color(&tty, SYSTEM_COLOR_GREEN);
+	tty_set_foreground_color(&tty, SYSTEM_COLOR_LT_GRAY);
 	tty_clear_screen(&tty);
-
-	// Print a test character:
-	putchar('X');
-
-	// Next, print a string:
-	puts(" Testing...");
 	
 	// And print with a format:
-	printf(" %s\n", "Testing printf...");
-
-	tty_set_foreground_color(&tty, SYSTEM_COLOR_YELLOW);
-	printf("Now I'm on the next line!\n");
+	printf("%s\n", "This is a string...");
+	printf("%d\n", 550011);
 
 	// Return as usual:
 	return 0;

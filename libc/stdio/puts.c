@@ -4,10 +4,10 @@
 
 int puts(const char* str)
 {
-	static size_t len = 0;
-	while (len < strlen(str))
+	size_t len = strlen(str);
+	for (size_t i = 0; i < len; i++)
 	{
-		putchar(str[len++]);
+		putchar(str[i]);
 	}
 	return len;
 }
