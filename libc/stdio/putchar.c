@@ -13,11 +13,28 @@ int putchar(int chr)
 	unsigned char color = vga_set_terminal_colors(tty.bg_color, tty.fg_color);
 	char c = (char)chr;
 
-	if (c == '\n')
+	if (c == '\n' || tty.cursor_x > TERMINAL_WIDTH)
 	{
 		tty.cursor_x = 0;
 		tty.cursor_y++;
 		index = tty.cursor_y * TERMINAL_WIDTH + tty.cursor_x;
+	}
+	else if (c == '\r')
+	{
+		tty.cursor_x = 0;
+	}
+	else if (c == '\t')
+	{
+		tty.cursor_x = tty.cursor_x + 4;
+	}
+	else if (c == '\b')
+	{
+		if (tty.cursor_x > 0)
+		{
+			tty.cursor_x--;
+			index = tty.cursor_y * TERMINAL_WIDTH + tty.cursor_x;
+			tty.vga_addr[index] = ' ' | color << 8;
+		}
 	}
 	else
 	{

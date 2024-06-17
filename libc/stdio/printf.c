@@ -9,103 +9,96 @@
 
 #define MAX_CHARACTERS						TERMINAL_WIDTH * TERMINAL_HEIGHT
 
-/* Print internal: Prints the specified formatted string. */
-static bool print_int(const char* data, size_t len)
-{
-	for (size_t i = 0; i < len; i++)
-	{
-		if (putchar(data[i]) == EOF)
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
 int printf(const char* restrict fmt, ...)
 {
 	va_list params;
 	va_start(params, fmt);
-
-	int written = 0;
-	while (*fmt != '\0')
+	for (size_t i = 0; i < strlen(fmt); i++)
 	{
-		size_t maxrem = INT_MAX - written;
-		if (fmt[0] != '%' || fmt[1] == '%') {
-			if (fmt[0] == '%')
-			{
-				fmt++;
-			}
-			size_t amt = 1;
-			while (fmt[amt] && fmt[amt] != '%')
-			{
-				amt++;
-			}
-			if (maxrem < amt) 
-			{
-				errno = -EOVERFLOW;
-				return -1;
-			}
-			puts(fmt);
-			fmt += amt;
-			written += amt;
-			continue;
-		}
-		const char* fmt_start = fmt++;
-		if (*fmt == 'c')
+		if (fmt[i] == '%')
 		{
-			fmt++;
-			char c = (char)va_arg(params, int);
-			if (!maxrem)
+			switch (fmt[i+1])
 			{
-				errno = -EOVERFLOW;
-				return -1;
-			}
-			putchar(c);
-			written++;
-		}
-		else if (*fmt == 's') 
-		{
-			fmt++;
-			const char* str = va_arg(params, const char*);
-			size_t len = strlen(str);
-			if (maxrem < len)
-			{
-				errno = -EOVERFLOW;
-				return -1;
-			}
-			puts(str);
-			written += len;
-		}
-		else if (*fmt == 'd')
-		{
-			fmt++;
-			int dec = va_arg(params, int);
-			size_t len = strlen(dec);
-			if (maxrem < len)
-			{
-				errno = -EOVERFLOW;
-				return -1;
-			}
-			char buffer[MAX_CHARACTERS];
-			itoa(dec, buffer, 10);
-			puts(buffer);
-			written += len;
+				case 's':
+				{
+					char* str = va_arg(params, char*);
+					if (!puts(str))
+					{
+						return -1;
+					}
+					i++;
+					continue;
+				}
+				case 'b': 
+				{
+					unsigned int str = va_arg(params, unsigned int);
+					char buffer[MAX_CHARACTERS];
+					puts(itoa(str, buffer, 2));
+					i++;
+					continue;
+				}
+				case 'c':
+				{
+					char c = va_arg(params, int);
+					if (!putchar(c))
+					{
+						return -1;
+					}
+					i++;
+					continue;
+				}
+				case 'd':
+				{
+					int str = va_arg(params, int);
+					char buffer[MAX_CHARACTERS];
+					if (!puts(itoa(str, buffer, 10)))
+					{
+						return -1;
+					}
+					i++;
+					continue;
+				}
+				case 'u':		/* Broken. Unsigned integers are supposed to wrap around when their limits are reached... */
+				{
+					unsigned int str = va_arg(params, unsigned int);
+					char buffer[MAX_CHARACTERS];
+					if (!puts(itoa(str, buffer, 10)))
+					{
+						return -1;
+					}
+					i++;
+					continue;
+				}
+				case 'o':
+				{
+					int str = va_arg(params, int);
+					char buffer[MAX_CHARACTERS];
+					if (!puts(itoa(str, buffer, 8)))
+					{
+						return -1;
+					}
+					i++;
+					continue;
+				}
+				case 'x':
+				{
+					unsigned int str = va_arg(params, unsigned int);
+					char buffer[MAX_CHARACTERS];
+					char* result = itoa(str, buffer, 16);
+					if (!puts(result))
+					{
+						return -1;
+					}
+					i++;
+					continue;
+				}
+			};
 		}
 		else
 		{
-			fmt = fmt_start;
-			size_t len = strlen(fmt);
-			if (maxrem < len)
-			{
-				errno = -EOVERFLOW;
-				return -1;
-			}
-			puts(fmt);
-			written += len;
-			fmt += len;
+			putchar(fmt[i]);
 		}
 	}
 	va_end(params);
-	return written;
+	return 0;
 }

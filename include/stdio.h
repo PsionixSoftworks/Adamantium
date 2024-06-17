@@ -17,7 +17,7 @@ EXTERN_C_BEGIN
 
 int putchar(int);
 int puts(const char*);
-int printf(const char* __restrict, ...);
+int printf(const char* restrict, ...);
 
 EXTERN_C_END
 
