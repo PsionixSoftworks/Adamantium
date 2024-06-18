@@ -38,4 +38,4 @@ run:
 	$(EMU)
 
 clean: $(OBJS)
-	rm -rf *.o *.iso *KERNEL *iso/
+	rm -rf *.o *KERNEL *iso/

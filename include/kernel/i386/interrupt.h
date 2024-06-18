@@ -33,6 +33,8 @@ static pidt_t pidt;
 
 extern void idt_set_descriptor(unsigned char vector, void* isr, unsigned char flags);
 extern void idt_init(void);
+extern void cli(void);
+extern void sti(void);
 
 static inline bool interrupts_enabled(void)
 {

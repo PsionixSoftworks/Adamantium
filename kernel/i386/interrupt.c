@@ -7,6 +7,8 @@
 static bool vectors[IDT_MAX_DESCRIPTORS];
 extern void* isr_stub_table[];
 
+static void idt_install(pidt_t pidt);
+
 void idt_set_descriptor(unsigned char vector, void* isr, unsigned char flags)
 {
 	idt_t* descriptor = &idt[vector];
@@ -33,6 +35,21 @@ void idt_init(void)
 		vectors[vector] = true;
 	}
 
-	asm volatile ( "lidt %0" : : "m"(pidt) );
+	idt_install(pidt);
+	sti();
+}
+
+void cli(void)
+{
+	asm volatile ( "cli" );
+}
+
+void sti(void)
+{
 	asm volatile ( "sti" );
+}
+
+static void idt_install(pidt_t pidt)
+{
+	asm volatile ( "lidt %0" : : "m"(pidt) );
 }
