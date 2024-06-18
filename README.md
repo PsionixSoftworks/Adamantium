@@ -9,6 +9,8 @@ but you may use it as long as you follow the guidelines.
 - You may NOT claim it as your own.
 - If you distribute any of the source code, it must contain the copyright and license attached with a link to the original repo.
 
+For more information, please read LICENSE.
+
 # TODO List
 - With the GDT setup, the next thing is the IDT or Interrupt Descriptor Table. We may include an LDT (Local Descriptor Table), but
 that may be optional. Basically, we need interrupt support and to setup the TSS as soon as possible so we can get to user mode.
