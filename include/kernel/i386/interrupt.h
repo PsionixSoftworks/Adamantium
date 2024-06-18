@@ -1,0 +1,6 @@
+#ifndef _ADAMANTIUM_INTERRUPT_H
+#define _ADAMANTIUM_INTERRUPT_H
+
+
+
+#endif

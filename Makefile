@@ -1,50 +1,41 @@
-CP 			:= cp
-RM 			:= rm -rf
-MKDIR 		:= mkdir -pv
+SRC				= $(wildcard *.asm *.c)
+BUILD			= $(SRC:.c=.o)
+CC				= gcc -m32
+CFLAGS			= -ffreestanding -fno-exceptions -fno-stack-protector -O2 -g -Wall -Wextra -Iinclude
+OBJS			= $(wildcard *.o)
+EMU				= qemu-system-i386 -machine ubuntu -drive format=raw,file=$(ISO_FILE)
 
-BIN 		= KERNEL
-CFG 		= grub.cfg
-ISO_PATH 	:= iso
-BOOT_PATH 	:= $(ISO_PATH)/boot
-GRUB_PATH 	:= $(BOOT_PATH)/grub
-ISO_FILE	:= adamantium.iso
-
-CFLAGS		= -ffreestanding -fno-exceptions -fno-stack-protector -O2 -g -Wall -Wextra -Iinclude
+MKDIR 			= mkdir -pv
+CP 				= cp
+CFG 			= grub.cfg
+BIN				= KERNEL
+ISO_PATH 		= iso
+BOOT_PATH 		= $(ISO_PATH)/boot
+GRUB_PATH 		= $(BOOT_PATH)/grub
+ISO_FILE		= adamantium.iso
 
 .PHONY: all
-all: bootloader kernel linker iso run
-	@echo Make has completed.
+all: build_list linker iso run
+	@echo Make has finished all tasks.
 
-bootloader: boot/grub-boot.S boot/gdt.asm
-	as --32 boot/grub-boot.S -o boot.o
-	nasm -felf32 boot/gdt.asm -o gdt.o
+build_list:
+	make -C boot
+	make -C init
+	make -C kernel/i386
+	make -C libc
 
-kernel: init/kernel.c
-	gcc -m32 -c init/kernel.c -o kernel.o $(CFLAGS)
-	gcc -m32 -c libc/stdlib/abort.c -o abort.o $(CFLAGS)
-	gcc -m32 -c libc/stdlib/itoa.c -o itoa.o $(CFLAGS)
-	gcc -m32 -c libc/string/memmove.c -o memmove.o $(CFLAGS)
-	gcc -m32 -c libc/string/strlen.c -o strlen.o $(CFLAGS)
-	gcc -m32 -c libc/string/memcmp.c -o memcmp.o $(CFLAGS)
-	gcc -m32 -c libc/string/memset.c -o memset.o $(CFLAGS)
-	gcc -m32 -c libc/string/memcpy.c -o memcpy.o $(CFLAGS)
-	gcc -m32 -c libc/stdio/printf.c -o printf.o $(CFLAGS)
-	gcc -m32 -c libc/stdio/putchar.c -o putchar.o $(CFLAGS)
-	gcc -m32 -c libc/stdio/puts.c -o puts.o $(CFLAGS)
+link: link.ld $(OBJS)
+	ld -m elf_i386 -T link.ld -o $(BIN) $(OBJS)
 
-linker: link.ld boot.o gdt.o kernel.o abort.o itoa.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
-	ld -m elf_i386 -T link.ld -o $(BIN) boot.o gdt.o kernel.o abort.o itoa.o memmove.o strlen.o memcmp.o memset.o memcpy.o printf.o putchar.o puts.o
-
-iso: kernel
+iso: $(BIN)
 	$(MKDIR) $(GRUB_PATH)
 	$(CP) $(BIN) $(BOOT_PATH)
 	$(CP) $(CFG) $(GRUB_PATH)
 	grub-file --is-x86-multiboot $(BOOT_PATH)/$(BIN)
 	grub-mkrescue -o $(ISO_FILE) $(ISO_PATH)
 
-.PHONY: clean
-clean:
-	$(RM) *.o $(BIN) *iso
 run:
-	qemu-system-i386 -machine ubuntu -drive format=raw,file=$(ISO_FILE)
-	$(RM) *.o $(BIN) *iso
+	$(EMU)
+
+clean: $(OBJS)
+	rm -rf *.o *.iso *KERNEL

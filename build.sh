@@ -1,0 +1,13 @@
+echo Building Adamantium kernel...
+make build_list
+sleep 1
+
+@echo Linking objects...
+make link
+
+@echo Building iso...
+make iso
+
+@echo Starting Adamantium kernel...
+make run
+make clean
