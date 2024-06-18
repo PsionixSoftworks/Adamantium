@@ -35,6 +35,8 @@ extern void idt_set_descriptor(unsigned char vector, void* isr, unsigned char fl
 extern void idt_init(void);
 extern void cli(void);
 extern void sti(void);
+extern void nmi_disable(void);
+extern void nmi_enable(void);
 
 static inline bool interrupts_enabled(void)
 {
