@@ -11,6 +11,11 @@
 #define EXTERN_C_END
 #endif
 
+#ifndef _SIZE_T
+#define _SIZE_T
+typedef unsigned int		ssize_t;
+#endif
+
 EXTERN_C_BEGIN
 
 void* memcpy(void* __restrict, const void* __restrict, size_t);
