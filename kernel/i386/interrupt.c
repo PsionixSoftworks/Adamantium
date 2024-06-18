@@ -1,6 +1,8 @@
 #include <kernel/i386/interrupt.h>
+#include <kernel/i386/pic.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 static bool vectors[IDT_MAX_DESCRIPTORS];
 extern void* isr_stub_table[];
@@ -20,6 +22,10 @@ void idt_init(void)
 {
 	pidt.base 	= (unsigned int)&idt[0];
 	pidt.limit	= (unsigned short)sizeof(idt_t) * IDT_MAX_DESCRIPTORS - 1;
+
+	memset(&idt, 0, sizeof(idt_t) * IDT_MAX_DESCRIPTORS);
+
+	pic_remap(0x20, 0x28);
 
 	for (unsigned char vector = 0; vector < 32; vector++)
 	{

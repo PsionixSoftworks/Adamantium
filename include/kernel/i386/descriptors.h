@@ -17,7 +17,7 @@ static void descriptor_tables_install(void)
 
 	// Print out that the descriptor tables have been installed:
 	tty_set_foreground_color(&tty, SYSTEM_COLOR_LT_GREEN);
-	printf("[INFO]: Successfully installed GDT...\n");
+	printf("[INFO]: Successfully installed descriptor tables...\n");
 	tty_set_foreground_color(&tty, SYSTEM_COLOR_GRAY);
 }
 
