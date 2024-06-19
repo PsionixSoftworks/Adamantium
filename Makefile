@@ -31,7 +31,7 @@ iso: $(BIN)
 	$(MKDIR) $(GRUB_PATH)
 	$(CP) $(BIN) $(BOOT_PATH)
 	$(CP) $(CFG) $(GRUB_PATH)
-	grub-file --is-x86-multiboot $(BOOT_PATH)/$(BIN)
+#	grub-file --is-x86-multiboot $(BOOT_PATH)/$(BIN)
 	grub-mkrescue -o $(ISO_FILE) $(ISO_PATH)
 
 run:
@@ -39,3 +39,5 @@ run:
 
 clean: $(OBJS)
 	rm -rf *.o *KERNEL *iso/
+clean_all: $(OBJS)
+	rm -rf *.o *KERNEL *iso/ *.iso

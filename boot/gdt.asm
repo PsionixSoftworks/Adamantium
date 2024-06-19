@@ -26,12 +26,12 @@ gdt_install:
     mov eax, gdt_pointer
     lgdt [eax]
 
-    jmp .flush
-.flush:
 	mov ax, 0x10
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
     mov ss, ax
+    jmp 0x08:.flush
+.flush:
     ret
