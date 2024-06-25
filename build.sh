@@ -3,4 +3,4 @@ sleep 2
 make link
 make iso
 make run
-//make clean_all
+make clean_all

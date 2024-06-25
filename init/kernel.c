@@ -44,7 +44,7 @@ int main(unsigned long magic, unsigned long addr)
 	printf("Memory Used: %uKB\n", mbi->mem_lower + mbi->mem_upper);
 
 	// Install the descriptor tables:
-	descriptor_tables_install();
+	descriptors_init();
 
 	// Return as usual:
 	return 0;

@@ -3,7 +3,7 @@ BUILD			= $(SRC:.c=.o)
 CC				= gcc -m32
 CFLAGS			= -ffreestanding -fno-exceptions -fno-stack-protector -O2 -g -Wall -Wextra -Iinclude
 OBJS			= $(wildcard *.o)
-EMU				= qemu-system-i386 -machine ubuntu -drive format=raw,file=$(ISO_FILE)
+EMU				= qemu-system-i386 -d int -no-reboot -machine ubuntu -drive format=raw,file=$(ISO_FILE)
 
 MKDIR 			= mkdir -pv
 CP 				= cp
