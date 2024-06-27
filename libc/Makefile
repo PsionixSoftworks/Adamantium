@@ -1,5 +1,5 @@
 ASSEMB			= as --32
-CC				= gcc -m32
+CC				= gcc -m32 -c
 CFLAGS			= -ffreestanding -fno-exceptions -fno-stack-protector -O2 -g -Wall -Wextra -I../include
 PARENT_DIR		= ../../
 
@@ -20,5 +20,5 @@ stdlib: stdio/printf.c
 	$(ASSEMB) string/memcmp.S -o ../memcmp.o
 	$(ASSEMB) string/memcpy.S -o ../memcpy.o
 	$(ASSEMB) string/memmove.S -o ../memmove.o
-	$(ASSEMB) string/memset.S -o ../memset.o
+	$(CC) string/memset.c -o ../memset.o $(CFLAGS)
 	$(ASSEMB) string/strlen.S -o ../strlen.o

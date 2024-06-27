@@ -3,7 +3,7 @@
 #include <kernel/i386/interrupt.h>
 #include <stdio.h>
 
-static const char* exception_messages[MAX_INTERRUPTS] =
+/*static const char* exception_messages[MAX_INTERRUPTS] =
 {
 	"EXCEPTION_RAISED! : [Division by zero]...",
 	"EXCEPTION_RAISED! : [Single-step Interrupt]",
@@ -27,11 +27,11 @@ static const char* exception_messages[MAX_INTERRUPTS] =
 	"EXCEPTION_RAISED! : [SIMD Floating-Point Exception]",
 	"EXCEPTION_RAISED! : [Virtualization Exception]",
 	"EXCEPTION_RAISED! : [Control Protection Exception]",
-};
+};*/
 
 isr_t interrupt_handler[MAX_INTERRUPTS];
 
-static void fault_handler(registers_t regs);
+//static void fault_handler(registers_t regs);
 
 void exception_handler(void)
 {
@@ -46,33 +46,35 @@ void register_interrupt_handler(uint8_t n, isr_t hndl)
 
 void isr_handler(registers_t regs)
 {
-	/* Check if the input handler has encountered an interrupt */
+	printf("Received Intno: 0x%x\n", regs.int_no);
+
+	/* // Check if the input handler has encountered an interrupt 
 	if (interrupt_handler[regs.int_no] != 0)
 	{
-		/* Handle the interrupt so we don't crash or triple fault */
+		// Handle the interrupt so we don't crash or triple fault 
 		isr_t hndl = interrupt_handler[regs.int_no];
 		hndl(regs);
 	}
 	else
 	{
-		/* Call our fault handler: */
+		// Call our fault handler: 
 		fault_handler(regs);
-	}
+	}*/
 }
 
-static void fault_handler(registers_t regs)
+/*static void fault_handler(registers_t regs)
 {
-	/* Make sure it's within the bounds of the ISR's (0-31) */
+	// Make sure it's within the bounds of the ISR's (0-31) 
 	if (regs.int_no < 32)
 	{
-		/* Print the exception message */
+		// Print the exception message 
 		printf("%s, int_no: 0x%x\n", exception_messages[regs.int_no], regs.int_no);
 
-		/* Check if the exception is an errcode */
+		// Check if the exception is an errcode
 		if (regs.err_code)
 		{
-			/* Print out the error code */
+			// Print out the error code:
 			printf("ERROR_CODE: 0x%x\n");
 		}
 	}
-}
+}*/

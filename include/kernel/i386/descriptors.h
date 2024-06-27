@@ -13,8 +13,8 @@
 
 extern void descriptors_init(void);
 
-#else
+#endif
+
 #define GDT_KERNEL_CODE_SEGMENT				0x08
 #define GDT_KERNEL_DATA_SEGMENT				0x10
-#endif
 #endif

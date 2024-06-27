@@ -4,6 +4,7 @@
 #include <kernel/ioportctrl.h>
 #include <kernel/cursor.h>
 #include <kernel/i386/descriptors.h>
+#include <kernel/i386/idt.h>
 #include <stdio.h>
 
 // Check bit flags:
@@ -35,7 +36,7 @@ int main(unsigned long magic, unsigned long addr)
 	}
 
 	// Print our startup message:
-	printf("== Adamantium Operating System v0.1.2a - Kernel Text Mode ==\n");
+	printf("== Adamantium Operating System v0.0.1a - Kernel Text Mode ==\n");
 
 	// Get the address of the Multiboot info:
 	mbi = (multiboot_info_t*)addr;
@@ -45,6 +46,8 @@ int main(unsigned long magic, unsigned long addr)
 
 	// Install the descriptor tables:
 	descriptors_init();
+
+	asm("int $0x0");
 
 	// Return as usual:
 	return 0;
