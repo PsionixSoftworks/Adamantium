@@ -1,4 +1,5 @@
 #include <multiboot.h>
+#include <vidmode.h>
 #include <vga.h>
 #include <kernel/tty.h>
 #include <kernel/ioportctrl.h>
