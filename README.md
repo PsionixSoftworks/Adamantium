@@ -12,8 +12,7 @@ but you may use it as long as you follow the guidelines.
 For more information, please read LICENSE.
 
 # TODO List
-- With the GDT setup, the next thing is the IDT or Interrupt Descriptor Table. We may include an LDT (Local Descriptor Table), but
-that may be optional. Basically, we need interrupt support and to setup the TSS as soon as possible so we can get to user mode.
+- With the GDT and IDT setup, the next step for the microkernel is to setup a working Task State Segment (TSS).
 - Setup the TSS (Task State Segment). As mentioned, it's required for getting to user mode. If the LDT is used, the TSS will most
 likely use it in its setup. 
 - A basic driver system to work from user mode. It has to be a robust system. We'll need a base driver that all others will be
